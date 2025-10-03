@@ -1,0 +1,164 @@
+<!-- Сайт розроблено студентом Левченко Людмила, група 5-9З факультет ФЕМП номер білету 10 -->
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <title>Магазин подарунків - Головна</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+    <h1 style="text-align: center;">Вітрина подарунків</h1>
+
+    <!-- Місце, куди JS вставить 3 випадкові товари -->
+    <div id="products" class="products-row">
+      <!-- Товари з'являться тут динамічно -->
+    </div>
+
+    <!-- Підсумок замовлення -->
+<div class="summary">
+  <div id="summary-text">Загальна сума: 0 грн</div>
+  <div>
+    <button id="order-btn" class="order-btn">Замовити</button>
+  </div>
+</div>
+
+    <!-- Невеликий опис проєкту як "Про проєкт" -->
+	    <section id="about" style="margin-top:18px; text-align: center;">
+         <p>З масиву товарів виводиться 3 довільні, які можна замовити</p>
+    </section>
+
+    <footer>
+      <p>Сайт розроблено студентом Левченко Людмила, група 5-9З факультет ФЕМП</p>
+    </footer>
+  </div>
+
+  <!-- Підключаємо дані про товари -->
+  <script src="products.js"></script>
+
+  <script>
+  // Коментар українською: простий скрипт для відображення 3 випадкових товарів
+  (function() {
+    // Беремо список товарів з глобального об'єкта (products.js)
+    const products = window.shopData.products;
+
+    // Вибираємо 3 унікальні випадкові індекси з 0..4
+    function pickThree() {
+      const indices = [];
+      while (indices.length < 3) {
+        const r = Math.floor(Math.random() * products.length);
+        if (!indices.includes(r)) indices.push(r);
+      }
+      return indices;
+    }
+
+    // Стан замовлення: список id обраних товарів і загальна сума
+    const selected = new Set();
+    let total = 0;
+
+    const productsContainer = document.getElementById('products');
+    const summaryText = document.getElementById('summary-text');
+    const orderBtn = document.getElementById('order-btn');
+
+    // Оновити показ сумі
+    function updateSummary() {
+      summaryText.textContent = "Загальна сума: " + total + " грн";
+    }
+
+    // Побудова картки товару
+    function createProductCard(prod) {
+      const div = document.createElement('div');
+      div.className = 'product';
+
+      // Зображення
+      const img = document.createElement('img');
+      img.src = prod.фото;
+      img.alt = prod.назва;
+      div.appendChild(img);
+
+      // Назва
+      const h4 = document.createElement('h4');
+      h4.textContent = prod.назва;
+      div.appendChild(h4);
+
+      // Ціна
+      const pPrice = document.createElement('p');
+      pPrice.textContent = prod.ціна + " грн";
+      div.appendChild(pPrice);
+
+      // Кнопка "Детальніше" - веде на сторінку id.html
+      const details = document.createElement('a');
+      details.href = prod.id + '.html';
+      details.className = 'button';
+      details.textContent = 'Детальніше';
+      div.appendChild(details);
+
+      // Кнопка "Обрати"
+      const choose = document.createElement('button');
+      choose.className = 'button';
+      choose.textContent = 'Обрати';
+      choose.addEventListener('click', function() {
+        if (!selected.has(prod.id)) {
+          // додаємо товар
+          selected.add(prod.id);
+          total += prod.ціна;
+          choose.classList.add('selected');
+          choose.textContent = 'Відмінити';
+        } else {
+          // відміняємо
+          selected.delete(prod.id);
+          total -= prod.ціна;
+          choose.classList.remove('selected');
+          choose.textContent = 'Обрати';
+        }
+        updateSummary();
+      });
+      div.appendChild(choose);
+
+      return div;
+    }
+
+    // Відмалювати три товари
+    function render() {
+      productsContainer.innerHTML = '';
+      const picks = pickThree();
+      picks.forEach(i => {
+        const prod = products[i];
+        productsContainer.appendChild(createProductCard(prod));
+      });
+      updateSummary();
+    }
+
+    // Обробник кнопки "Замовити"
+    orderBtn.addEventListener('click', function() {
+      if (total === 0) {
+        alert("Ви не обрали жодного товару.");
+        return;
+      }
+      // Показуємо повідомлення з сумою
+      alert("Вітаємо! Ви замовили обрані подарунки на загальну суму " + total + " грн");
+      // Додаємо кнопку "Повернутись назад" під сумою (простий спосіб)
+      const backBtn = document.createElement('button');
+      backBtn.textContent = 'Повернутись назад';
+      backBtn.className = 'button';
+      backBtn.style.marginLeft = '10px';
+      backBtn.addEventListener('click', function() {
+        // Очищуємо вибір
+        selected.clear();
+        total = 0;
+        render();
+        // Приберемо кнопку
+        backBtn.remove();
+      });
+      orderBtn.parentNode.appendChild(backBtn);
+    });
+
+    // Ініціалізація
+    render();
+
+  })();
+  </script>
+</body>
+</html>
