@@ -1,0 +1,130 @@
+/* Загальні стилі сайту - мінімалістична палітра (білий, світло-сірий, чорний, синій) */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #ffffff; /* білий фон */
+  color: #111111; /* чорний текст */
+  
+}
+
+/* Простий контейнер */
+.container {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 18px;
+  background: #f5f5f5; /* світло-сірий блок */
+  border-radius: 6px;
+}
+
+/* Просте меню навігації */
+nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+nav a {
+  text-decoration: none;
+  color: #1967D2; /* синій як у Google Docs */
+  font-weight: 600;
+}
+
+/* Галерея товарів: три в ряд */
+.products-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;   /* центруємо замість розтягування */
+  flex-wrap: wrap;
+  max-width: 800px;          /* задаємо максимальну ширину */
+  margin: 0 auto;            /* центруємо блок */
+}
+
+/* Окрема карточка товару */
+.product {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  width: calc(33% - 8px);
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Зображення товару */
+.product img {
+  max-width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Кнопки прості і без анімацій */
+.button {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 6px 4px 0 4px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid #1967D2;
+  color: #1967D2;
+  background: #ffffff;
+}
+
+/* Вибрана кнопка "Відмінити" */
+.button.selected {
+  background: #1967D2;
+  color: #ffffff;
+}
+
+/* Блок підсумку */
+.summary {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;     /* вирівнювання по центру */
+}
+
+.summary #summary-text {
+  margin-bottom: 10px;    /* відступ вниз для суми */
+  font-weight: bold;      /* щоб виглядало красивіше */
+  display: block;         /* щоб був окремим рядком */
+}
+
+/* Кнопка замовити */
+.order-btn {
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background: #1967D2;
+  color: #ffffff;
+}
+
+/* Футер */
+footer {
+  margin-top: 18px;
+  text-align: center;
+  color: #555555;
+  font-size: 14px;
+}
+
+/* Сторінка детального опису */
+.detail {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.detail img {
+  width: 320px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Респонсив: у вузьких екранах товари під ряд */
+@media (max-width: 760px) {
+  .product { width: 100%; }
+  .detail { flex-direction: column; align-items: center; }
+  .detail img { width: 100%; height: auto; }
+}

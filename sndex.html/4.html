@@ -1,0 +1,83 @@
+<!-- Сайт розроблено студентом Левченко Людмила, група 5-9З факультет ФЕМП номер білету 10 -->
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <title>Подарунок 4 - Деталі</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+
+
+    <h1 id="prod-title">Деталі товару</h1>
+
+    <div id="detail" class="detail">
+      <!-- Тут буде зображення та опис, заповнюється JS -->
+    </div>
+
+    <p>
+      <button id="back-btn" class="button">Повернутись назад</button>
+    </p>
+
+    <footer>
+      <p>Сайт розроблено студентом Левченко Людмила, група 5-9З факультет ФЕМП</p>
+    </footer>
+  </div>
+
+  <script src="products.js"></script>
+  <script>
+  // Коментар: цей скрипт отримує id товару з назви файлу і показує деталі.
+  (function() {
+    // Визначаємо id цього товару по імені файла (1.html -> id = 1)
+    // Для простоти жорстко встанольовано id = 1 (заміни цифру в інших файлах)
+    const thisId = 4; // ЗАМІНИ для 2.html -> 2, і т.д.
+
+    const prod = window.shopData.getProductById(thisId);
+    const detail = document.getElementById('detail');
+    const title = document.getElementById('prod-title');
+
+    if (!prod) {
+      detail.textContent = 'Товар не знайдено.';
+      return;
+    }
+
+    title.textContent = prod.назва;
+
+    // Створюємо блок з зображенням
+    const img = document.createElement('img');
+    img.src = prod.фото;
+    img.alt = prod.назва;
+    detail.appendChild(img);
+
+    // Створюємо блок з текстовою інформацією
+    const info = document.createElement('div');
+
+    const h3 = document.createElement('h3');
+    h3.textContent = prod.назва;
+    info.appendChild(h3);
+
+    const price = document.createElement('p');
+    price.textContent = 'Ціна: ' + prod.ціна + ' грн';
+    info.appendChild(price);
+
+    const desc = document.createElement('p');
+    desc.textContent = prod.опис;
+    info.appendChild(desc);
+
+    detail.appendChild(info);
+
+    // Кнопка повернення назад
+    document.getElementById('back-btn').addEventListener('click', function() {
+      // Повертаємось назад у історії, або на головну
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = 'index.html';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
